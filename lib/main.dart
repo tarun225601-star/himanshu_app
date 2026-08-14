@@ -1,36 +1,29 @@
+import 'package:calculator_app/screens/calculator_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-    runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CalculatorModel()),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
-    const MyApp({Key? key}) : super(key: key);
-
-    @override
-    Widget build(BuildContext context) {
-        return MaterialApp(
-            title: 'Flutter Demo',
-            theme: ThemeData(
-                primarySwatch: Colors.blue,
-            ),
-            home: const MyHomePage(),
-        );
-    }
-}
-
-class MyHomePage extends StatelessWidget {
-    const MyHomePage({Key? key}) : super(key: key);
-
-    @override
-    Widget build(BuildContext context) {
-        return Scaffold(
-            appBar: AppBar(
-                title: const Text('Flutter Demo'),
-            ),
-            body: const Center(
-                child: Text('Hello, World!'),
-            ),
-        );
-    }
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Calculator App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        scaffoldBackgroundColor: Colors.black,
+      ),
+      home: CalculatorScreen(),
+    );
+  }
 }
