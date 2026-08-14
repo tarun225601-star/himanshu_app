@@ -16,15 +16,15 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Calculator(),
+      home: CalculatorPage(),
     );
   }
 }
-class Calculator extends StatefulWidget {
+class CalculatorPage extends StatefulWidget {
   @override
-  _CalculatorState createState() => _CalculatorState();
+  _CalculatorPageState createState() => _CalculatorPageState();
 }
-class _CalculatorState extends State<Calculator> {
+class _CalculatorPageState extends State<CalculatorPage> {
   String _expression = '';
   String _result = '';
   @override
@@ -59,10 +59,8 @@ class _CalculatorState extends State<Calculator> {
                 children: [
                   OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      primary: Colors.blue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                      shape: CircleBorder(),
+                      side: BorderSide(width: 1, color: Colors.grey),
                     ),
                     onPressed: () {
                       setState(() {
@@ -73,10 +71,8 @@ class _CalculatorState extends State<Calculator> {
                   ),
                   OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      primary: Colors.blue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                      shape: CircleBorder(),
+                      side: BorderSide(width: 1, color: Colors.grey),
                     ),
                     onPressed: () {
                       setState(() {
@@ -87,10 +83,8 @@ class _CalculatorState extends State<Calculator> {
                   ),
                   OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      primary: Colors.blue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                      shape: CircleBorder(),
+                      side: BorderSide(width: 1, color: Colors.grey),
                     ),
                     onPressed: () {
                       setState(() {
@@ -101,10 +95,8 @@ class _CalculatorState extends State<Calculator> {
                   ),
                   OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      primary: Colors.blue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                      shape: CircleBorder(),
+                      side: BorderSide(width: 1, color: Colors.grey),
                     ),
                     onPressed: () {
                       setState(() {
@@ -115,10 +107,8 @@ class _CalculatorState extends State<Calculator> {
                   ),
                   OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      primary: Colors.blue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                      shape: CircleBorder(),
+                      side: BorderSide(width: 1, color: Colors.grey),
                     ),
                     onPressed: () {
                       setState(() {
@@ -129,10 +119,8 @@ class _CalculatorState extends State<Calculator> {
                   ),
                   OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      primary: Colors.blue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                      shape: CircleBorder(),
+                      side: BorderSide(width: 1, color: Colors.grey),
                     ),
                     onPressed: () {
                       setState(() {
@@ -143,10 +131,8 @@ class _CalculatorState extends State<Calculator> {
                   ),
                   OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      primary: Colors.blue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                      shape: CircleBorder(),
+                      side: BorderSide(width: 1, color: Colors.grey),
                     ),
                     onPressed: () {
                       setState(() {
@@ -157,10 +143,8 @@ class _CalculatorState extends State<Calculator> {
                   ),
                   OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      primary: Colors.blue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                      shape: CircleBorder(),
+                      side: BorderSide(width: 1, color: Colors.grey),
                     ),
                     onPressed: () {
                       setState(() {
@@ -171,10 +155,8 @@ class _CalculatorState extends State<Calculator> {
                   ),
                   OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      primary: Colors.blue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                      shape: CircleBorder(),
+                      side: BorderSide(width: 1, color: Colors.grey),
                     ),
                     onPressed: () {
                       setState(() {
@@ -185,10 +167,8 @@ class _CalculatorState extends State<Calculator> {
                   ),
                   OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      primary: Colors.blue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                      shape: CircleBorder(),
+                      side: BorderSide(width: 1, color: Colors.grey),
                     ),
                     onPressed: () {
                       setState(() {
@@ -199,10 +179,8 @@ class _CalculatorState extends State<Calculator> {
                   ),
                   OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      primary: Colors.blue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                      shape: CircleBorder(),
+                      side: BorderSide(width: 1, color: Colors.grey),
                     ),
                     onPressed: () {
                       setState(() {
@@ -213,10 +191,8 @@ class _CalculatorState extends State<Calculator> {
                   ),
                   OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      primary: Colors.blue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                      shape: CircleBorder(),
+                      side: BorderSide(width: 1, color: Colors.grey),
                     ),
                     onPressed: () {
                       setState(() {
@@ -227,10 +203,8 @@ class _CalculatorState extends State<Calculator> {
                   ),
                   OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      primary: Colors.blue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                      shape: CircleBorder(),
+                      side: BorderSide(width: 1, color: Colors.grey),
                     ),
                     onPressed: () {
                       setState(() {
@@ -241,10 +215,8 @@ class _CalculatorState extends State<Calculator> {
                   ),
                   OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      primary: Colors.blue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                      shape: CircleBorder(),
+                      side: BorderSide(width: 1, color: Colors.grey),
                     ),
                     onPressed: () {
                       setState(() {
@@ -255,10 +227,8 @@ class _CalculatorState extends State<Calculator> {
                   ),
                   OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      primary: Colors.blue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                      shape: CircleBorder(),
+                      side: BorderSide(width: 1, color: Colors.grey),
                     ),
                     onPressed: () {
                       setState(() {
@@ -270,10 +240,20 @@ class _CalculatorState extends State<Calculator> {
                   ),
                   OutlinedButton(
                     style: OutlinedButton.styleFrom(
-                      primary: Colors.blue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
+                      shape: CircleBorder(),
+                      side: BorderSide(width: 1, color: Colors.grey),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _expression += '+';
+                      });
+                    },
+                    child: Text('+'),
+                  ),
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      shape: CircleBorder(),
+                      side: BorderSide(width: 1, color: Colors.grey),
                     ),
                     onPressed: () {
                       setState(() {
@@ -282,20 +262,6 @@ class _CalculatorState extends State<Calculator> {
                       });
                     },
                     child: Text('C'),
-                  ),
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      primary: Colors.blue,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _expression += '+';
-                      });
-                    },
-                    child: Text('+'),
                   ),
                 ],
               ),
