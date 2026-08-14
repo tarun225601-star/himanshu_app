@@ -1,96 +1,289 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(const CalculatorApp());
+  runApp(const MyApp());
 }
 
-class CalculatorApp extends StatelessWidget {
-  const CalculatorApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const CalculatorHome(),
+      title: 'Calculator App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const CalculatorPage(),
     );
   }
 }
 
-class CalculatorHome extends StatefulWidget {
-  const CalculatorHome({super.key});
+class CalculatorPage extends StatefulWidget {
+  const CalculatorPage({Key? key}) : super(key: key);
 
   @override
-  State<CalculatorHome> createState() => _CalculatorHomeState();
+  State<CalculatorPage> createState() => _CalculatorPageState();
 }
 
-class _CalculatorHomeState extends State<CalculatorHome> {
-  String output = "0";
-  String _output = "0";
-  double num1 = 0.0;
-  double num2 = 0.0;
-  String operand = "";
+class _CalculatorPageState extends State<CalculatorPage> {
+  String _expression = '';
+  String _result = '';
 
-  void buttonPressed(String buttonText) {
-    if (buttonText == "CLEAR") {
-      _output = "0";
-      num1 = 0.0;
-      num2 = 0.0;
-      operand = "";
-    } else if (buttonText == "+" || buttonText == "-" || buttonText == "/" || buttonText == "X") {
-      num1 = double.parse(output);
-      operand = buttonText;
-      _output = "0";
-    } else if (buttonText == ".") {
-      if (_output.contains(".")) return;
-      _output = _output + buttonText;
-    } else if (buttonText == "=") {
-      num2 = double.parse(output);
-      if (operand == "+") _output = (num1 + num2).toString();
-      if (operand == "-") _output = (num1 - num2).toString();
-      if (operand == "X") _output = (num1 * num2).toString();
-      if (operand == "/") _output = (num1 / num2).toString();
-      operand = "";
-    } else {
-      _output = _output + buttonText;
-    }
-
+  void _onPressed(String value) {
     setState(() {
-      output = double.parse(_output).toStringAsFixed(2);
+      if (value == '=') {
+        _result = _calculate(_expression);
+        _expression = '';
+      } else if (value == 'C') {
+        _expression = '';
+        _result = '';
+      } else {
+        _expression += value;
+      }
     });
   }
 
-  Widget buildButton(String buttonText) {
-    return Expanded(
-      child: OutlinedButton(
-        style: OutlinedButton.styleFrom(
-          padding: const EdgeInsets.all(24.0),
-        ),
-        onPressed: () => buttonPressed(buttonText),
-        child: Text(buttonText, style: const TextStyle(fontSize: 20.0)),
-      ),
-    );
+  String _calculate(String expression) {
+    try {
+      return expression
+          .replaceAll(' ', '')
+          .replaceAll('+', '+')
+          .replaceAll('-', '-')
+          .replaceAll('*', '*')
+          .replaceAll('/', '/')
+          .eval().toString();
+    } catch (e) {
+      return 'Error';
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Calculator")),
+      appBar: AppBar(
+        title: const Text('Calculator'),
+      ),
       body: Column(
-        children: <Widget>[
-          Container(
-            alignment: Alignment.centerRight,
-            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 12),
-            child: Text(output, style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold)),
+        children: [
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    _expression,
+                    style: const TextStyle(fontSize: 24),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    _result,
+                    style: const TextStyle(fontSize: 48),
+                  ),
+                ],
+              ),
+            ),
           ),
-          const Expanded(child: Divider()),
-          Column(
-            children: [
-              Row(children: [buildButton("7"), buildButton("8"), buildButton("9"), buildButton("/")]),
-              Row(children: [buildButton("4"), buildButton("5"), buildButton("6"), buildButton("X")]),
-              Row(children: [buildButton("1"), buildButton("2"), buildButton("3"), buildButton("-")]),
-              Row(children: [buildButton("."), buildButton("0"), buildButton("CLEAR"), buildButton("+")]),
-              Row(children: [buildButton("=")]),
-            ],
-          )
+          Expanded(
+            flex: 3,
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              child: GridView.count(
+                crossAxisCount: 4,
+                childAspectRatio: 1.2,
+                children: [
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      primary: Colors.white,
+                      backgroundColor: Colors.blue,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                    onPressed: () => _onPressed('7'),
+                    child: const Text('7', style: TextStyle(fontSize: 24)),
+                  ),
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      primary: Colors.white,
+                      backgroundColor: Colors.blue,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                    onPressed: () => _onPressed('8'),
+                    child: const Text('8', style: TextStyle(fontSize: 24)),
+                  ),
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      primary: Colors.white,
+                      backgroundColor: Colors.blue,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                    onPressed: () => _onPressed('9'),
+                    child: const Text('9', style: TextStyle(fontSize: 24)),
+                  ),
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      primary: Colors.white,
+                      backgroundColor: Colors.blue,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                    onPressed: () => _onPressed('/'),
+                    child: const Text('/', style: TextStyle(fontSize: 24)),
+                  ),
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      primary: Colors.white,
+                      backgroundColor: Colors.blue,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                    onPressed: () => _onPressed('4'),
+                    child: const Text('4', style: TextStyle(fontSize: 24)),
+                  ),
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      primary: Colors.white,
+                      backgroundColor: Colors.blue,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                    onPressed: () => _onPressed('5'),
+                    child: const Text('5', style: TextStyle(fontSize: 24)),
+                  ),
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      primary: Colors.white,
+                      backgroundColor: Colors.blue,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                    onPressed: () => _onPressed('6'),
+                    child: const Text('6', style: TextStyle(fontSize: 24)),
+                  ),
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      primary: Colors.white,
+                      backgroundColor: Colors.blue,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                    onPressed: () => _onPressed('*'),
+                    child: const Text('*', style: TextStyle(fontSize: 24)),
+                  ),
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      primary: Colors.white,
+                      backgroundColor: Colors.blue,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                    onPressed: () => _onPressed('1'),
+                    child: const Text('1', style: TextStyle(fontSize: 24)),
+                  ),
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      primary: Colors.white,
+                      backgroundColor: Colors.blue,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                    onPressed: () => _onPressed('2'),
+                    child: const Text('2', style: TextStyle(fontSize: 24)),
+                  ),
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      primary: Colors.white,
+                      backgroundColor: Colors.blue,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                    onPressed: () => _onPressed('3'),
+                    child: const Text('3', style: TextStyle(fontSize: 24)),
+                  ),
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      primary: Colors.white,
+                      backgroundColor: Colors.blue,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                    onPressed: () => _onPressed('-'),
+                    child: const Text('-', style: TextStyle(fontSize: 24)),
+                  ),
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      primary: Colors.white,
+                      backgroundColor: Colors.blue,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                    onPressed: () => _onPressed('0'),
+                    child: const Text('0', style: TextStyle(fontSize: 24)),
+                  ),
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      primary: Colors.white,
+                      backgroundColor: Colors.blue,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                    onPressed: () => _onPressed('.'),
+                    child: const Text('.', style: TextStyle(fontSize: 24)),
+                  ),
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      primary: Colors.white,
+                      backgroundColor: Colors.blue,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                    onPressed: () => _onPressed('='),
+                    child: const Text('=', style: TextStyle(fontSize: 24)),
+                  ),
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      primary: Colors.white,
+                      backgroundColor: Colors.blue,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                    onPressed: () => _onPressed('C'),
+                    child: const Text('C', style: TextStyle(fontSize: 24)),
+                  ),
+                  OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      primary: Colors.white,
+                      backgroundColor: Colors.blue,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
+                      ),
+                    ),
+                    onPressed: () => _onPressed('+'),
+                    child: const Text('+', style: TextStyle(fontSize: 24)),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
