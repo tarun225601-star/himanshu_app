@@ -33,7 +33,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.example.himanshu_app2"
+        applicationId "com.example.himanshu_app"
         minSdkVersion 21
         targetSdkVersion 34
         versionCode flutterVersionCode.toInteger()
