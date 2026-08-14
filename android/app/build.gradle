@@ -8,11 +8,6 @@ android {
     namespace "com.example.himanshu_app"
     compileSdkVersion 34
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-
     defaultConfig {
         applicationId "com.example.himanshu_app"
         minSdkVersion 21
