@@ -1,69 +1,41 @@
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ThemeProvider()),
+      ],
+      child: const CalculatorApp(),
+    ),
+  );
 }
-
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
+class CalculatorApp extends StatelessWidget {
+  const CalculatorApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Calculator App',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const CalculatorPage(),
+    return Consumer<ThemeProvider>(
+      builder: (context, themeProvider, child) {
+        return MaterialApp(
+          title: 'Calculator App',
+          theme: themeProvider.isDarkMode ? ThemeData.dark() : ThemeData.light(),
+          home: const CalculatorPage(),
+        );
+      },
     );
   }
 }
-
 class CalculatorPage extends StatefulWidget {
   const CalculatorPage({Key? key}) : super(key: key);
-
   @override
   State<CalculatorPage> createState() => _CalculatorPageState();
 }
-
 class _CalculatorPageState extends State<CalculatorPage> {
-  String _expression = '';
+  final _controller = TextEditingController();
   String _result = '';
-
-  void _onPressed(String value) {
-    setState(() {
-      if (value == '=') {
-        _result = _calculate(_expression);
-        _expression = '';
-      } else if (value == 'C') {
-        _expression = '';
-        _result = '';
-      } else {
-        _expression += value;
-      }
-    });
-  }
-
-  String _calculate(String expression) {
-    try {
-      return expression
-          .replaceAll(' ', '')
-          .replaceAll('+', '+')
-          .replaceAll('-', '-')
-          .replaceAll('*', '*')
-          .replaceAll('/', '/')
-          .eval().toString();
-    } catch (e) {
-      return 'Error';
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Calculator'),
-      ),
       body: Column(
         children: [
           Expanded(
@@ -72,220 +44,199 @@ class _CalculatorPageState extends State<CalculatorPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text(
-                    _expression,
-                    style: const TextStyle(fontSize: 24),
+                  TextField(
+                    controller: _controller,
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      hintText: '0',
+                    ),
                   ),
-                  const SizedBox(height: 20),
                   Text(
                     _result,
-                    style: const TextStyle(fontSize: 48),
+                    style: const TextStyle(fontSize: 24),
                   ),
                 ],
               ),
             ),
           ),
           Expanded(
-            flex: 3,
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              child: GridView.count(
-                crossAxisCount: 4,
-                childAspectRatio: 1.2,
-                children: [
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      primary: Colors.white,
-                      backgroundColor: Colors.blue,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                    ),
-                    onPressed: () => _onPressed('7'),
-                    child: const Text('7', style: TextStyle(fontSize: 24)),
+            child: GridView.count(
+              crossAxisCount: 4,
+              childAspectRatio: 1.2,
+              children: [
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    shape: const StadiumBorder(),
+                    side: const BorderSide(color: Colors.grey),
                   ),
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      primary: Colors.white,
-                      backgroundColor: Colors.blue,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                    ),
-                    onPressed: () => _onPressed('8'),
-                    child: const Text('8', style: TextStyle(fontSize: 24)),
+                  onPressed: () {
+                    _controller.text += '7';
+                  },
+                  child: const Text('7'),
+                ),
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    shape: const StadiumBorder(),
+                    side: const BorderSide(color: Colors.grey),
                   ),
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      primary: Colors.white,
-                      backgroundColor: Colors.blue,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                    ),
-                    onPressed: () => _onPressed('9'),
-                    child: const Text('9', style: TextStyle(fontSize: 24)),
+                  onPressed: () {
+                    _controller.text += '8';
+                  },
+                  child: const Text('8'),
+                ),
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    shape: const StadiumBorder(),
+                    side: const BorderSide(color: Colors.grey),
                   ),
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      primary: Colors.white,
-                      backgroundColor: Colors.blue,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                    ),
-                    onPressed: () => _onPressed('/'),
-                    child: const Text('/', style: TextStyle(fontSize: 24)),
+                  onPressed: () {
+                    _controller.text += '9';
+                  },
+                  child: const Text('9'),
+                ),
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    shape: const StadiumBorder(),
+                    side: const BorderSide(color: Colors.grey),
                   ),
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      primary: Colors.white,
-                      backgroundColor: Colors.blue,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                    ),
-                    onPressed: () => _onPressed('4'),
-                    child: const Text('4', style: TextStyle(fontSize: 24)),
+                  onPressed: () {
+                    _controller.text += '/';
+                  },
+                  child: const Text('/'),
+                ),
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    shape: const StadiumBorder(),
+                    side: const BorderSide(color: Colors.grey),
                   ),
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      primary: Colors.white,
-                      backgroundColor: Colors.blue,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                    ),
-                    onPressed: () => _onPressed('5'),
-                    child: const Text('5', style: TextStyle(fontSize: 24)),
+                  onPressed: () {
+                    _controller.text += '4';
+                  },
+                  child: const Text('4'),
+                ),
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    shape: const StadiumBorder(),
+                    side: const BorderSide(color: Colors.grey),
                   ),
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      primary: Colors.white,
-                      backgroundColor: Colors.blue,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                    ),
-                    onPressed: () => _onPressed('6'),
-                    child: const Text('6', style: TextStyle(fontSize: 24)),
+                  onPressed: () {
+                    _controller.text += '5';
+                  },
+                  child: const Text('5'),
+                ),
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    shape: const StadiumBorder(),
+                    side: const BorderSide(color: Colors.grey),
                   ),
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      primary: Colors.white,
-                      backgroundColor: Colors.blue,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                    ),
-                    onPressed: () => _onPressed('*'),
-                    child: const Text('*', style: TextStyle(fontSize: 24)),
+                  onPressed: () {
+                    _controller.text += '6';
+                  },
+                  child: const Text('6'),
+                ),
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    shape: const StadiumBorder(),
+                    side: const BorderSide(color: Colors.grey),
                   ),
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      primary: Colors.white,
-                      backgroundColor: Colors.blue,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                    ),
-                    onPressed: () => _onPressed('1'),
-                    child: const Text('1', style: TextStyle(fontSize: 24)),
+                  onPressed: () {
+                    _controller.text += '*';
+                  },
+                  child: const Text('*'),
+                ),
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    shape: const StadiumBorder(),
+                    side: const BorderSide(color: Colors.grey),
                   ),
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      primary: Colors.white,
-                      backgroundColor: Colors.blue,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                    ),
-                    onPressed: () => _onPressed('2'),
-                    child: const Text('2', style: TextStyle(fontSize: 24)),
+                  onPressed: () {
+                    _controller.text += '1';
+                  },
+                  child: const Text('1'),
+                ),
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    shape: const StadiumBorder(),
+                    side: const BorderSide(color: Colors.grey),
                   ),
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      primary: Colors.white,
-                      backgroundColor: Colors.blue,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                    ),
-                    onPressed: () => _onPressed('3'),
-                    child: const Text('3', style: TextStyle(fontSize: 24)),
+                  onPressed: () {
+                    _controller.text += '2';
+                  },
+                  child: const Text('2'),
+                ),
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    shape: const StadiumBorder(),
+                    side: const BorderSide(color: Colors.grey),
                   ),
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      primary: Colors.white,
-                      backgroundColor: Colors.blue,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                    ),
-                    onPressed: () => _onPressed('-'),
-                    child: const Text('-', style: TextStyle(fontSize: 24)),
+                  onPressed: () {
+                    _controller.text += '3';
+                  },
+                  child: const Text('3'),
+                ),
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    shape: const StadiumBorder(),
+                    side: const BorderSide(color: Colors.grey),
                   ),
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      primary: Colors.white,
-                      backgroundColor: Colors.blue,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                    ),
-                    onPressed: () => _onPressed('0'),
-                    child: const Text('0', style: TextStyle(fontSize: 24)),
+                  onPressed: () {
+                    _controller.text += '-';
+                  },
+                  child: const Text('-'),
+                ),
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    shape: const StadiumBorder(),
+                    side: const BorderSide(color: Colors.grey),
                   ),
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      primary: Colors.white,
-                      backgroundColor: Colors.blue,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                    ),
-                    onPressed: () => _onPressed('.'),
-                    child: const Text('.', style: TextStyle(fontSize: 24)),
+                  onPressed: () {
+                    _controller.text += '0';
+                  },
+                  child: const Text('0'),
+                ),
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    shape: const StadiumBorder(),
+                    side: const BorderSide(color: Colors.grey),
                   ),
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      primary: Colors.white,
-                      backgroundColor: Colors.blue,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                    ),
-                    onPressed: () => _onPressed('='),
-                    child: const Text('=', style: TextStyle(fontSize: 24)),
+                  onPressed: () {
+                    _controller.text += '.';
+                  },
+                  child: const Text('.'),
+                ),
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    shape: const StadiumBorder(),
+                    side: const BorderSide(color: Colors.grey),
                   ),
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      primary: Colors.white,
-                      backgroundColor: Colors.blue,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                    ),
-                    onPressed: () => _onPressed('C'),
-                    child: const Text('C', style: TextStyle(fontSize: 24)),
+                  onPressed: () {
+                    _controller.text += '=';
+                  },
+                  child: const Text('='),
+                ),
+                OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    shape: const StadiumBorder(),
+                    side: const BorderSide(color: Colors.grey),
                   ),
-                  OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      primary: Colors.white,
-                      backgroundColor: Colors.blue,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                      ),
-                    ),
-                    onPressed: () => _onPressed('+'),
-                    child: const Text('+', style: TextStyle(fontSize: 24)),
-                  ),
-                ],
-              ),
+                  onPressed: () {
+                    _controller.text += '+';
+                  },
+                  child: const Text('+'),
+                ),
+              ],
             ),
           ),
         ],
       ),
     );
+  }
+}
+class ThemeProvider with ChangeNotifier {
+  bool _isDarkMode = false;
+  bool get isDarkMode => _isDarkMode;
+  void toggleTheme() {
+    _isDarkMode = !_isDarkMode;
+    notifyListeners();
   }
 }
