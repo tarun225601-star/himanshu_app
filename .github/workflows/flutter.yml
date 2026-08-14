@@ -1,4 +1,5 @@
-name: Flutter Build
+name: Build Flutter App
+
 on: [push]
 
 jobs:
@@ -8,12 +9,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.x'
+          flutter-version: '3.19.x'
       
-      # यह स्टेप चेक करेगा कि फाइल सही जगह है या नहीं
-      - name: Check file existence
-        run: |
-          ls -R android/app/src/main/
-      
+      - run: flutter clean
       - run: flutter pub get
-      - run: flutter build apk --release
+      - run: flutter build apk --release --no-shrink
