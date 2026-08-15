@@ -2,122 +2,89 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator App</title>
-    <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body, .root {
+            height: 100vh; 
+            width: 100vw; 
+            display: flex; 
+            flex-direction: column; 
+            overflow: hidden;
+        }
+        .calculator {
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            grid-template-rows: 2fr 1fr 1fr 1fr 1fr;
+            background-color: #121212;
+            color: white;
+        }
+        .display-screen {
+            grid-column: 1 / -1;
+            background-color: #1a1a1a;
+            padding: 20px;
+            font-size: 30px;
+            font-weight: bold;
+            text-align: right;
+        }
+        .button {
+            height: 100%; 
+            width: 100%; 
+            border: none;
+            background-color: #2a2a2a;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #3a3a3a;
+        }
+        .equals-button {
+            grid-row: span 2;
+        }
+    </style>
 </head>
-<body class="h-screen bg-[#1c1c1c] flex flex-col items-center justify-center">
-    <div class="w-full max-w-md mx-auto p-4 bg-[#1c1c1c] rounded-lg shadow-lg">
-        <div class="flex justify-between items-center mb-4">
-            <input type="text" id="display" class="w-full text-4xl text-white bg-transparent border-none outline-none" disabled>
-            <div class="flex space-x-2">
-                <button id="sqrt" class="p-2 text-white bg-[#333] rounded-full hover:bg-[#444]">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 7v8a2 2 0 002 2h4a2 2 0 002-2v-8m-0 0l-3-3m0 3l3-3" />
-                    </svg>
-                </button>
-                <button id="currency" class="p-2 text-white bg-[#333] rounded-full hover:bg-[#444]">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-7v6" />
-                    </svg>
-                </button>
-            </div>
+<body>
+    <div class="root">
+        <div class="calculator">
+            <div class="display-screen">0</div>
+            <button class="button">7</button>
+            <button class="button">8</button>
+            <button class="button">9</button>
+            <button class="button">/</button>
+            <button class="button">4</button>
+            <button class="button">5</button>
+            <button class="button">6</button>
+            <button class="button">*</button>
+            <button class="button">1</button>
+            <button class="button">2</button>
+            <button class="button">3</button>
+            <button class="button">-</button>
+            <button class="button">0</button>
+            <button class="button">.</button>
+            <button class="equals-button button">=</button>
+            <button class="button">+</button>
         </div>
-        <div class="grid grid-cols-4 gap-2 mb-4">
-            <button id="7" class="p-4 text-2xl text-white bg-[#333] rounded-lg hover:bg-[#444]">7</button>
-            <button id="8" class="p-4 text-2xl text-white bg-[#333] rounded-lg hover:bg-[#444]">8</button>
-            <button id="9" class="p-4 text-2xl text-white bg-[#333] rounded-lg hover:bg-[#444]">9</button>
-            <button id="divide" class="p-4 text-2xl text-white bg-[#87CEEB] rounded-lg hover:bg-[#4682B4]">÷</button>
-            <button id="4" class="p-4 text-2xl text-white bg-[#333] rounded-lg hover:bg-[#444]">4</button>
-            <button id="5" class="p-4 text-2xl text-white bg-[#333] rounded-lg hover:bg-[#444]">5</button>
-            <button id="6" class="p-4 text-2xl text-white bg-[#333] rounded-lg hover:bg-[#444]">6</button>
-            <button id="multiply" class="p-4 text-2xl text-white bg-[#87CEEB] rounded-lg hover:bg-[#4682B4]">×</button>
-            <button id="1" class="p-4 text-2xl text-white bg-[#333] rounded-lg hover:bg-[#444]">1</button>
-            <button id="2" class="p-4 text-2xl text-white bg-[#333] rounded-lg hover:bg-[#444]">2</button>
-            <button id="3" class="p-4 text-2xl text-white bg-[#333] rounded-lg hover:bg-[#444]">3</button>
-            <button id="subtract" class="p-4 text-2xl text-white bg-[#87CEEB] rounded-lg hover:bg-[#4682B4]">-</button>
-            <button id="0" class="p-4 text-2xl text-white bg-[#333] rounded-lg hover:bg-[#444]">0</button>
-            <button id="decimal" class="p-4 text-2xl text-white bg-[#333] rounded-lg hover:bg-[#444]">.</button>
-            <button id="equals" class="p-4 text-2xl text-white bg-[#87CEEB] rounded-lg hover:bg-[#4682B4] flex flex-col items-center justify-center">=</button>
-            <button id="add" class="p-4 text-2xl text-white bg-[#87CEEB] rounded-lg hover:bg-[#4682B4]">+</button>
-        </div>
-        <button id="clear" class="w-full p-4 text-2xl text-white bg-[#333] rounded-lg hover:bg-[#444]">Clear</button>
-        <button id="delete" class="w-full p-4 text-2xl text-white bg-[#333] rounded-lg hover:bg-[#444] mt-2">Delete</button>
     </div>
     <script>
-        let display = document.getElementById('display');
+        const buttons = document.querySelectorAll('.button');
+        const displayScreen = document.querySelector('.display-screen');
         let currentNumber = '';
-        let previousNumber = '';
-        let operation = '';
-
-        document.getElementById('7').addEventListener('click', () => appendNumber('7'));
-        document.getElementById('8').addEventListener('click', () => appendNumber('8'));
-        document.getElementById('9').addEventListener('click', () => appendNumber('9'));
-        document.getElementById('4').addEventListener('click', () => appendNumber('4'));
-        document.getElementById('5').addEventListener('click', () => appendNumber('5'));
-        document.getElementById('6').addEventListener('click', () => appendNumber('6'));
-        document.getElementById('1').addEventListener('click', () => appendNumber('1'));
-        document.getElementById('2').addEventListener('click', () => appendNumber('2'));
-        document.getElementById('3').addEventListener('click', () => appendNumber('3'));
-        document.getElementById('0').addEventListener('click', () => appendNumber('0'));
-        document.getElementById('decimal').addEventListener('click', () => appendNumber('.'));
-
-        document.getElementById('add').addEventListener('click', () => setOperation('+'));
-        document.getElementById('subtract').addEventListener('click', () => setOperation('-'));
-        document.getElementById('multiply').addEventListener('click', () => setOperation('*'));
-        document.getElementById('divide').addEventListener('click', () => setOperation('/'));
-
-        document.getElementById('equals').addEventListener('click', calculate);
-        document.getElementById('clear').addEventListener('click', clear);
-        document.getElementById('delete').addEventListener('click', deleteNumber);
-
-        function appendNumber(number) {
-            currentNumber += number;
-            display.value = currentNumber;
-        }
-
-        function setOperation(op) {
-            previousNumber = currentNumber;
-            operation = op;
-            currentNumber = '';
-            display.value = previousNumber + ' ' + operation;
-        }
-
-        function calculate() {
-            let result;
-            switch (operation) {
-                case '+':
-                    result = parseFloat(previousNumber) + parseFloat(currentNumber);
-                    break;
-                case '-':
-                    result = parseFloat(previousNumber) - parseFloat(currentNumber);
-                    break;
-                case '*':
-                    result = parseFloat(previousNumber) * parseFloat(currentNumber);
-                    break;
-                case '/':
-                    result = parseFloat(previousNumber) / parseFloat(currentNumber);
-                    break;
-                default:
-                    result = 0;
-            }
-            display.value = result;
-            currentNumber = result.toString();
-            previousNumber = '';
-            operation = '';
-        }
-
-        function clear() {
-            display.value = '';
-            currentNumber = '';
-            previousNumber = '';
-            operation = '';
-        }
-
-        function deleteNumber() {
-            currentNumber = currentNumber.slice(0, -1);
-            display.value = currentNumber;
-        }
+        buttons.forEach(button => {
+            button.addEventListener('click', () => {
+                if (button.textContent === '=') {
+                    try {
+                        currentNumber = eval(currentNumber);
+                        displayScreen.textContent = currentNumber;
+                    } catch (error) {
+                        displayScreen.textContent = 'Error';
+                    }
+                } else {
+                    currentNumber += button.textContent;
+                    displayScreen.textContent = currentNumber;
+                }
+            });
+        });
     </script>
 </body>
 </html>
