@@ -3,73 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Media Uploader and Music Player</title>
+    <title>Calculator App</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-900 text-white">
-    <div class="container mx-auto p-4 pt-6 mt-10 mb-20 lg:p-10 lg:mt-20">
-        <h2 class="text-2xl font-bold text-cyan-400 mb-4">Media Uploader</h2>
-        <input type="file" id="mediaInput" accept="image/*, video/*" class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-cyan-400 file:text-white hover:file:bg-cyan-500">
-        <div id="mediaPreview" class="mt-4"></div>
-
-        <h2 class="text-2xl font-bold text-cyan-400 mt-10 mb-4">Music Player</h2>
-        <div class="space-y-2 max-h-48 overflow-y-auto pr-1">
-            <div onclick="playSong('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3', 'Song 1 - Hype Beat')" class="bg-gray-950 p-2.5 rounded-xl border border-gray-800 flex justify-between items-center cursor-pointer hover:border-cyan-500 transition">
-                <span class="text-xs font-semibold text-cyan-200">🔥 Peppy Trending Beat</span>
-                <span class="text-[10px] bg-cyan-600 px-2 py-1 rounded-lg text-white">▶ Play</span>
-            </div>
-            <div onclick="playSong('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3', 'Song 2 - Chill Acoustic')" class="bg-gray-950 p-2.5 rounded-xl border border-gray-800 flex justify-between items-center cursor-pointer hover:border-cyan-500 transition">
-                <span class="text-xs font-semibold text-cyan-200">🎸 Lo-Fi Chill Acoustic</span>
-                <span class="text-[10px] bg-cyan-600 px-2 py-1 rounded-lg text-white">▶ Play</span>
-            </div>
-            <div onclick="playSong('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3', 'Song 3 - Electronic Bass')" class="bg-gray-950 p-2.5 rounded-xl border border-gray-800 flex justify-between items-center cursor-pointer hover:border-cyan-500 transition">
-                <span class="text-xs font-semibold text-cyan-200">⚡ Electronic Hype Bass</span>
-                <span class="text-[10px] bg-cyan-600 px-2 py-1 rounded-lg text-white">▶ Play</span>
-            </div>
-        </div>
-
-        <div id="nowPlayingBox" class="hidden bg-cyan-950/40 border border-cyan-500/40 p-3 rounded-xl space-y-2 text-center mt-4">
-            <p id="songTitleDisplay" class="text-xs text-cyan-300 font-bold truncate"></p>
-            <audio id="realAudioPlayer" controls class="w-full h-8"></audio>
+<body class="h-screen bg-gray-100 flex justify-center items-center">
+    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col w-80">
+        <input type="text" id="display" class="text-3xl font-bold text-right p-4 mb-4 border-b border-gray-200" disabled>
+        <div class="grid grid-cols-4 gap-2">
+            <button class="bg-gray-200 hover:bg-gray-300 text-2xl font-bold p-4" onclick="clearDisplay()">C</button>
+            <button class="bg-gray-200 hover:bg-gray-300 text-2xl font-bold p-4" onclick="backspace()">DEL</button>
+            <button class="bg-gray-200 hover:bg-gray-300 text-2xl font-bold p-4" onclick="calculate('%')">%</button>
+            <button class="bg-orange-500 hover:bg-orange-600 text-2xl font-bold p-4 text-white" onclick="calculate('/')">/</button>
+            <button class="bg-gray-200 hover:bg-gray-300 text-2xl font-bold p-4" onclick="calculate('7')">7</button>
+            <button class="bg-gray-200 hover:bg-gray-300 text-2xl font-bold p-4" onclick="calculate('8')">8</button>
+            <button class="bg-gray-200 hover:bg-gray-300 text-2xl font-bold p-4" onclick="calculate('9')">9</button>
+            <button class="bg-orange-500 hover:bg-orange-600 text-2xl font-bold p-4 text-white" onclick="calculate('*')">*</button>
+            <button class="bg-gray-200 hover:bg-gray-300 text-2xl font-bold p-4" onclick="calculate('4')">4</button>
+            <button class="bg-gray-200 hover:bg-gray-300 text-2xl font-bold p-4" onclick="calculate('5')">5</button>
+            <button class="bg-gray-200 hover:bg-gray-300 text-2xl font-bold p-4" onclick="calculate('6')">6</button>
+            <button class="bg-orange-500 hover:bg-orange-600 text-2xl font-bold p-4 text-white" onclick="calculate('-')">-</button>
+            <button class="bg-gray-200 hover:bg-gray-300 text-2xl font-bold p-4" onclick="calculate('1')">1</button>
+            <button class="bg-gray-200 hover:bg-gray-300 text-2xl font-bold p-4" onclick="calculate('2')">2</button>
+            <button class="bg-gray-200 hover:bg-gray-300 text-2xl font-bold p-4" onclick="calculate('3')">3</button>
+            <button class="bg-orange-500 hover:bg-orange-600 text-2xl font-bold p-4 text-white" onclick="calculate('+')">+</button>
+            <button class="bg-gray-200 hover:bg-gray-300 text-2xl font-bold p-4" onclick="calculate('0')">0</button>
+            <button class="bg-gray-200 hover:bg-gray-300 text-2xl font-bold p-4" onclick="calculate('.')">.</button>
+            <button class="bg-gray-200 hover:bg-gray-300 text-2xl font-bold p-4" onclick="calculate('=')">=</button>
+            <button class="bg-orange-500 hover:bg-orange-600 text-2xl font-bold p-4 text-white" onclick="calculate('')">ENTER</button>
         </div>
     </div>
-
     <script>
-        const mediaInput = document.getElementById('mediaInput');
-        const mediaPreview = document.getElementById('mediaPreview');
+        let display = document.getElementById('display');
+        let currentNumber = '';
+        let previousNumber = '';
+        let operator = '';
 
-        mediaInput.addEventListener('change', (e) => {
-            const file = mediaInput.files[0];
-            const fileType = file.type;
-
-            if (fileType.startsWith('image/')) {
-                const image = document.createElement('img');
-                image.src = URL.createObjectURL(file);
-                image.classList.add('w-full', 'h-auto', 'mt-4');
-                mediaPreview.innerHTML = '';
-                mediaPreview.appendChild(image);
-            } else if (fileType.startsWith('video/')) {
-                const video = document.createElement('video');
-                video.src = URL.createObjectURL(file);
-                video.classList.add('w-full', 'h-auto', 'mt-4');
-                video.controls = true;
-                mediaPreview.innerHTML = '';
-                mediaPreview.appendChild(video);
+        function calculate(key) {
+            if (key === 'C') {
+                clearDisplay();
+            } else if (key === 'DEL') {
+                backspace();
+            } else if (key === '=') {
+                if (currentNumber !== '' && previousNumber !== '' && operator !== '') {
+                    let result = eval(previousNumber + operator + currentNumber);
+                    display.value = result;
+                    previousNumber = result.toString();
+                    currentNumber = '';
+                    operator = '';
+                }
+            } else if (key === '+' || key === '-' || key === '*' || key === '/' || key === '%') {
+                if (currentNumber !== '') {
+                    previousNumber = currentNumber;
+                    operator = key;
+                    currentNumber = '';
+                }
+            } else {
+                currentNumber += key;
+                display.value = previousNumber + operator + currentNumber;
             }
-        });
+        }
 
-        function playSong(audioUrl, songName) {
-            const playerBox = document.getElementById('nowPlayingBox');
-            const audioElement = document.getElementById('realAudioPlayer');
-            const titleDisplay = document.getElementById('songTitleDisplay');
+        function clearDisplay() {
+            display.value = '';
+            currentNumber = '';
+            previousNumber = '';
+            operator = '';
+        }
 
-            playerBox.classList.remove('hidden');
-            titleDisplay.innerText = "Now Playing: " + songName;
-            
-            audioElement.src = audioUrl;
-            audioElement.play().catch(e => {
-                console.log("Auto-play blocked or loading error:", e);
-            });
+        function backspace() {
+            if (currentNumber !== '') {
+                currentNumber = currentNumber.slice(0, -1);
+                display.value = previousNumber + operator + currentNumber;
+            }
         }
     </script>
 </body>
