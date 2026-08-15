@@ -3,88 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Calculator</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         body, .root {
-            height: 100vh; 
-            width: 100vw; 
-            display: flex; 
-            flex-direction: column; 
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
             overflow: hidden;
         }
         .calculator {
-            display: grid; 
-            grid-template-columns: repeat(4, 1fr); 
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
             grid-template-rows: 2fr 1fr 1fr 1fr 1fr;
             background-color: #121212;
             color: white;
         }
-        .display-screen {
-            grid-column: 1 / -1;
-            background-color: #1a1a1a;
-            padding: 20px;
-            font-size: 30px;
-            font-weight: bold;
-            text-align: right;
-        }
         .button {
-            height: 100%; 
-            width: 100%; 
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             border: none;
-            background-color: #2a2a2a;
+            background-color: #333;
             color: white;
-            font-size: 20px;
+            font-size: 24px;
             cursor: pointer;
         }
         .button:hover {
-            background-color: #3a3a3a;
+            background-color: #444;
         }
-        .equals-button {
+        .equals {
             grid-row: span 2;
+        }
+        .display {
+            background-color: #333;
+            padding: 20px;
+            font-size: 36px;
+            text-align: right;
         }
     </style>
 </head>
 <body>
     <div class="root">
         <div class="calculator">
-            <div class="display-screen">0</div>
-            <button class="button">7</button>
-            <button class="button">8</button>
-            <button class="button">9</button>
-            <button class="button">/</button>
-            <button class="button">4</button>
-            <button class="button">5</button>
-            <button class="button">6</button>
-            <button class="button">*</button>
-            <button class="button">1</button>
-            <button class="button">2</button>
-            <button class="button">3</button>
-            <button class="button">-</button>
-            <button class="button">0</button>
-            <button class="button">.</button>
-            <button class="equals-button button">=</button>
-            <button class="button">+</button>
+            <div class="display" id="display">0</div>
+            <div class="button" onclick="clearDisplay()">C</div>
+            <div class="button" onclick="backspace()">DEL</div>
+            <div class="button" onclick="handleClick('%')">%</div>
+            <div class="button" onclick="handleClick '/'">/</div>
+            <div class="button" onclick="handleClick('7')">7</div>
+            <div class="button" onclick="handleClick('8')">8</div>
+            <div class="button" onclick="handleClick('9')">9</div>
+            <div class="button" onclick="handleClick('*')">*</div>
+            <div class="button" onclick="handleClick('4')">4</div>
+            <div class="button" onclick="handleClick('5')">5</div>
+            <div class="button" onclick="handleClick('6')">6</div>
+            <div class="button" onclick="handleClick('-')">-</div>
+            <div class="button" onclick="handleClick('1')">1</div>
+            <div class="button" onclick="handleClick('2')">2</div>
+            <div class="button" onclick="handleClick('3')">3</div>
+            <div class="button equals" onclick="calculate()">=</div>
+            <div class="button" onclick="handleClick('0')">0</div>
+            <div class="button" onclick="handleClick('.')">.</div>
         </div>
     </div>
     <script>
-        const buttons = document.querySelectorAll('.button');
-        const displayScreen = document.querySelector('.display-screen');
+        let display = document.getElementById('display');
         let currentNumber = '';
-        buttons.forEach(button => {
-            button.addEventListener('click', () => {
-                if (button.textContent === '=') {
-                    try {
-                        currentNumber = eval(currentNumber);
-                        displayScreen.textContent = currentNumber;
-                    } catch (error) {
-                        displayScreen.textContent = 'Error';
-                    }
-                } else {
-                    currentNumber += button.textContent;
-                    displayScreen.textContent = currentNumber;
+        let previousNumber = '';
+        let operation = '';
+
+        function handleClick(value) {
+            if (value === '%') {
+                currentNumber = parseFloat(currentNumber) / 100;
+                display.innerText = currentNumber;
+            } else if (value === '.') {
+                if (!currentNumber.includes('.')) {
+                    currentNumber += '.';
+                    display.innerText = currentNumber;
                 }
-            });
-        });
+            } else if (value === '+' || value === '-' || value === '*' || value === '/') {
+                previousNumber = currentNumber;
+                operation = value;
+                currentNumber = '';
+                display.innerText = '0';
+            } else {
+                currentNumber += value;
+                display.innerText = currentNumber;
+            }
+        }
+
+        function calculate() {
+            let result;
+            switch (operation) {
+                case '+':
+                    result = parseFloat(previousNumber) + parseFloat(currentNumber);
+                    break;
+                case '-':
+                    result = parseFloat(previousNumber) - parseFloat(currentNumber);
+                    break;
+                case '*':
+                    result = parseFloat(previousNumber) * parseFloat(currentNumber);
+                    break;
+                case '/':
+                    result = parseFloat(previousNumber) / parseFloat(currentNumber);
+                    break;
+                default:
+                    result = 0;
+            }
+            display.innerText = result;
+            currentNumber = result.toString();
+            previousNumber = '';
+            operation = '';
+        }
+
+        function clearDisplay() {
+            display.innerText = '0';
+            currentNumber = '';
+            previousNumber = '';
+            operation = '';
+        }
+
+        function backspace() {
+            currentNumber = currentNumber.slice(0, -1);
+            if (currentNumber === '') {
+                display.innerText = '0';
+            } else {
+                display.innerText = currentNumber;
+            }
+        }
     </script>
 </body>
 </html>
