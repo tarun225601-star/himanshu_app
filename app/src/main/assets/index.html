@@ -2,103 +2,122 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Calculator</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-        body, .root {
+        body {
+            margin: 0;
+            padding: 0;
             height: 100vh;
-            width: 100vw;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
+            background-color: #121212;
         }
-        .calculator {
+        .display {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            font-size: 48px;
+            text-align: right;
+        }
+        .keypad {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: 2fr 1fr 1fr 1fr 1fr;
-            background-color: #121212;
-            color: white;
+            gap: 10px;
+            padding: 20px;
         }
-        .button {
-            height: 100%;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border: none;
-            background-color: #333;
-            color: white;
+        .keypad button {
+            padding: 20px;
             font-size: 24px;
-            cursor: pointer;
-        }
-        .button:hover {
+            border-radius: 12px;
             background-color: #444;
+            color: #fff;
+            border: none;
+        }
+        .keypad button:hover {
+            background-color: #555;
+        }
+        .keypad button:active {
+            background-color: #666;
         }
         .equals {
             grid-row: span 2;
         }
-        .display {
-            background-color: #333;
-            padding: 20px;
-            font-size: 36px;
-            text-align: right;
-        }
     </style>
 </head>
 <body>
-    <div class="root">
-        <div class="calculator">
-            <div class="display" id="display">0</div>
-            <div class="button" onclick="clearDisplay()">C</div>
-            <div class="button" onclick="backspace()">DEL</div>
-            <div class="button" onclick="handleClick('%')">%</div>
-            <div class="button" onclick="handleClick '/'">/</div>
-            <div class="button" onclick="handleClick('7')">7</div>
-            <div class="button" onclick="handleClick('8')">8</div>
-            <div class="button" onclick="handleClick('9')">9</div>
-            <div class="button" onclick="handleClick('*')">*</div>
-            <div class="button" onclick="handleClick('4')">4</div>
-            <div class="button" onclick="handleClick('5')">5</div>
-            <div class="button" onclick="handleClick('6')">6</div>
-            <div class="button" onclick="handleClick('-')">-</div>
-            <div class="button" onclick="handleClick('1')">1</div>
-            <div class="button" onclick="handleClick('2')">2</div>
-            <div class="button" onclick="handleClick('3')">3</div>
-            <div class="button equals" onclick="calculate()">=</div>
-            <div class="button" onclick="handleClick('0')">0</div>
-            <div class="button" onclick="handleClick('.')">.</div>
+    <div class="h-screen flex flex-col">
+        <div class="display h-20 overflow-hidden border-b border-gray-600">
+            <p id="display">0</p>
+        </div>
+        <div class="keypad flex-grow">
+            <button class="bg-red-600 hover:bg-red-700 active:bg-red-800" onclick="clearDisplay()">C</button>
+            <button onclick="appendOperator('/')">÷</button>
+            <button onclick="appendOperator('*')">×</button>
+            <button class="bg-red-600 hover:bg-red-700 active:bg-red-800" onclick="deleteLastCharacter()">DEL</button>
+            <button onclick="appendNumber(7)">7</button>
+            <button onclick="appendNumber(8)">8</button>
+            <button onclick="appendNumber(9)">9</button>
+            <button onclick="appendOperator('/')">÷</button>
+            <button onclick="appendNumber(4)">4</button>
+            <button onclick="appendNumber(5)">5</button>
+            <button onclick="appendNumber(6)">6</button>
+            <button onclick="appendOperator('-')">-</button>
+            <button onclick="appendNumber(1)">1</button>
+            <button onclick="appendNumber(2)">2</button>
+            <button onclick="appendNumber(3)">3</button>
+            <button onclick="appendOperator('+')">+</button>
+            <button onclick="appendNumber(0)">0</button>
+            <button onclick="appendDecimal()">.</button>
+            <button class="equals" onclick="calculateResult()">=</button>
         </div>
     </div>
     <script>
         let display = document.getElementById('display');
-        let currentNumber = '';
+        let currentNumber = '0';
         let previousNumber = '';
-        let operation = '';
+        let operator = '';
 
-        function handleClick(value) {
-            if (value === '%') {
-                currentNumber = parseFloat(currentNumber) / 100;
-                display.innerText = currentNumber;
-            } else if (value === '.') {
-                if (!currentNumber.includes('.')) {
-                    currentNumber += '.';
-                    display.innerText = currentNumber;
-                }
-            } else if (value === '+' || value === '-' || value === '*' || value === '/') {
-                previousNumber = currentNumber;
-                operation = value;
-                currentNumber = '';
-                display.innerText = '0';
+        function appendNumber(number) {
+            if (currentNumber === '0') {
+                currentNumber = number.toString();
             } else {
-                currentNumber += value;
-                display.innerText = currentNumber;
+                currentNumber += number.toString();
+            }
+            display.textContent = currentNumber;
+        }
+
+        function appendDecimal() {
+            if (!currentNumber.includes('.')) {
+                currentNumber += '.';
+                display.textContent = currentNumber;
             }
         }
 
-        function calculate() {
+        function appendOperator(op) {
+            previousNumber = currentNumber;
+            operator = op;
+            currentNumber = '0';
+        }
+
+        function clearDisplay() {
+            currentNumber = '0';
+            previousNumber = '';
+            operator = '';
+            display.textContent = currentNumber;
+        }
+
+        function deleteLastCharacter() {
+            if (currentNumber.length > 1) {
+                currentNumber = currentNumber.slice(0, -1);
+            } else {
+                currentNumber = '0';
+            }
+            display.textContent = currentNumber;
+        }
+
+        function calculateResult() {
             let result;
-            switch (operation) {
+            switch (operator) {
                 case '+':
                     result = parseFloat(previousNumber) + parseFloat(currentNumber);
                     break;
@@ -112,28 +131,12 @@
                     result = parseFloat(previousNumber) / parseFloat(currentNumber);
                     break;
                 default:
-                    result = 0;
+                    result = currentNumber;
             }
-            display.innerText = result;
+            display.textContent = result.toString();
             currentNumber = result.toString();
             previousNumber = '';
-            operation = '';
-        }
-
-        function clearDisplay() {
-            display.innerText = '0';
-            currentNumber = '';
-            previousNumber = '';
-            operation = '';
-        }
-
-        function backspace() {
-            currentNumber = currentNumber.slice(0, -1);
-            if (currentNumber === '') {
-                display.innerText = '0';
-            } else {
-                display.innerText = currentNumber;
-            }
+            operator = '';
         }
     </script>
 </body>
