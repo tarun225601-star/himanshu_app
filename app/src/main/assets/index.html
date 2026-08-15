@@ -2,65 +2,90 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Media Uploader and Audio Selector</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Media Uploader and Music Player</title>
+    <link href="https://cdn.tailwindcss.com" rel="stylesheet">
 </head>
 <body class="h-screen flex flex-col items-center justify-center bg-gray-100">
-    <h1 class="text-3xl mb-4">Media Uploader and Audio Selector</h1>
+    <h1 class="text-3xl font-bold mb-4">Media Uploader and Music Player</h1>
     <div class="flex flex-col items-center justify-center">
-        <input type="file" id="media-input" accept="image/*, video/*" class="mb-4">
-        <div id="media-preview" class="mb-4"></div>
-        <select id="audio-selector" class="mb-4">
-            <option value="">Select Background Music</option>
-            <option value="lo-fi">Lo-Fi</option>
+        <input type="file" id="fileInput" class="mb-4" accept="image/*, video/*">
+        <div id="preview" class="mb-4"></div>
+        <select id="musicSelector" class="mb-4">
+            <option value="">Select a music track</option>
+            <option value="lofi">Lo-Fi</option>
             <option value="peppy">Peppy</option>
-            <option value="hype-beats">Hype Beats</option>
+            <option value="hype">Hype Beats</option>
         </select>
+        <audio id="audioPlayer" controls>
+            <source id="audioSource" src="" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
+        <div id="musicTracks" class="mt-4">
+            <select id="trackSelector">
+                <option value="">Select a track</option>
+                <option value="track1">Track 1</option>
+                <option value="track2">Track 2</option>
+                <option value="track3">Track 3</option>
+                <option value="track4">Track 4</option>
+            </select>
+        </div>
     </div>
 
     <script>
-        const mediaInput = document.getElementById('media-input');
-        const mediaPreview = document.getElementById('media-preview');
-        const audioSelector = document.getElementById('audio-selector');
+        const fileInput = document.getElementById('fileInput');
+        const preview = document.getElementById('preview');
+        const musicSelector = document.getElementById('musicSelector');
+        const audioPlayer = document.getElementById('audioPlayer');
+        const audioSource = document.getElementById('audioSource');
+        const trackSelector = document.getElementById('trackSelector');
 
-        mediaInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                const mediaURL = event.target.result;
-                if (file.type.startsWith('image/')) {
+        fileInput.addEventListener('change', (e) => {
+            const file = fileInput.files[0];
+            const fileReader = new FileReader();
+            fileReader.onload = () => {
+                if (file.type.match('image.*')) {
                     const img = document.createElement('img');
-                    img.src = mediaURL;
-                    mediaPreview.innerHTML = '';
-                    mediaPreview.appendChild(img);
-                } else if (file.type.startsWith('video/')) {
+                    img.src = fileReader.result;
+                    preview.innerHTML = '';
+                    preview.appendChild(img);
+                } else if (file.type.match('video.*')) {
                     const video = document.createElement('video');
-                    video.src = mediaURL;
+                    video.src = fileReader.result;
                     video.controls = true;
-                    mediaPreview.innerHTML = '';
-                    mediaPreview.appendChild(video);
+                    preview.innerHTML = '';
+                    preview.appendChild(video);
                 }
             };
-            reader.readAsDataURL(file);
+            fileReader.readAsDataURL(file);
         });
 
-        audioSelector.addEventListener('change', (e) => {
-            const selectedTrack = e.target.value;
-            console.log(`Background music track selected: ${selectedTrack}`);
-            if (selectedTrack === 'lo-fi') {
-                // Play Lo-Fi music
-                const audio = new Audio('https://example.com/lo-fi.mp3');
-                audio.play();
+        musicSelector.addEventListener('change', (e) => {
+            const selectedTrack = musicSelector.value;
+            console.log(`Selected track: ${selectedTrack}`);
+            if (selectedTrack === 'lofi') {
+                audioSource.src = 'https://example.com/lofi.mp3';
             } else if (selectedTrack === 'peppy') {
-                // Play Peppy music
-                const audio = new Audio('https://example.com/peppy.mp3');
-                audio.play();
-            } else if (selectedTrack === 'hype-beats') {
-                // Play Hype Beats music
-                const audio = new Audio('https://example.com/hype-beats.mp3');
-                audio.play();
+                audioSource.src = 'https://example.com/peppy.mp3';
+            } else if (selectedTrack === 'hype') {
+                audioSource.src = 'https://example.com/hype.mp3';
             }
+            audioPlayer.load();
+        });
+
+        trackSelector.addEventListener('change', (e) => {
+            const selectedTrack = trackSelector.value;
+            if (selectedTrack === 'track1') {
+                audioSource.src = 'https://example.com/track1.mp3';
+            } else if (selectedTrack === 'track2') {
+                audioSource.src = 'https://example.com/track2.mp3';
+            } else if (selectedTrack === 'track3') {
+                audioSource.src = 'https://example.com/track3.mp3';
+            } else if (selectedTrack === 'track4') {
+                audioSource.src = 'https://example.com/track4.mp3';
+            }
+            audioPlayer.load();
         });
     </script>
 </body>
