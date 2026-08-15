@@ -1,9 +1,19 @@
-rootProject.name = "himanshu_app";
-include ':app'
 pluginManagement {
     repositories {
-        google() // यह होना ही चाहिए
+        google()
         mavenCentral()
         gradlePluginPortal()
     }
 }
+
+// यह हिस्सा बहुत जरूरी है, जो आपके पास अभी नहीं है
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = "himanshu_app"
+include ':app'
