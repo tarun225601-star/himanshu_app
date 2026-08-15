@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator App</title>
+    <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+</head>
+<body class="h-screen bg-gray-100 flex justify-center items-center">
+    <div class="bg-white p-4 rounded shadow-md w-80">
+        <input type="text" id="display" class="w-full p-2 border border-gray-300 rounded mb-4" disabled>
+        <div class="grid grid-cols-4 gap-2">
+            <button class="p-2 border border-gray-300 rounded" onclick="clearDisplay()">C</button>
+            <button class="p-2 border border-gray-300 rounded" onclick="backspace()">DEL</button>
+            <button class="p-2 border border-gray-300 rounded" onclick="calculate('%')">%</button>
+            <button class="p-2 border border-gray-300 rounded" onclick="calculate('/')">/</button>
+        </div>
+        <div class="grid grid-cols-4 gap-2">
+            <button class="p-2 border border-gray-300 rounded" onclick="calculate('7')">7</button>
+            <button class="p-2 border border-gray-300 rounded" onclick="calculate('8')">8</button>
+            <button class="p-2 border border-gray-300 rounded" onclick="calculate('9')">9</button>
+            <button class="p-2 border border-gray-300 rounded" onclick="calculate('*')">*</button>
+        </div>
+        <div class="grid grid-cols-4 gap-2">
+            <button class="p-2 border border-gray-300 rounded" onclick="calculate('4')">4</button>
+            <button class="p-2 border border-gray-300 rounded" onclick="calculate('5')">5</button>
+            <button class="p-2 border border-gray-300 rounded" onclick="calculate('6')">6</button>
+            <button class="p-2 border border-gray-300 rounded" onclick="calculate('-')">-</button>
+        </div>
+        <div class="grid grid-cols-4 gap-2">
+            <button class="p-2 border border-gray-300 rounded" onclick="calculate('1')">1</button>
+            <button class="p-2 border border-gray-300 rounded" onclick="calculate('2')">2</button>
+            <button class="p-2 border border-gray-300 rounded" onclick="calculate('3')">3</button>
+            <button class="p-2 border border-gray-300 rounded" onclick="calculate('+')">+</button>
+        </div>
+        <div class="grid grid-cols-4 gap-2">
+            <button class="p-2 border border-gray-300 rounded" onclick="calculate('0')">0</button>
+            <button class="p-2 border border-gray-300 rounded" onclick="calculate('.')">.</button>
+            <button class="p-2 border border-gray-300 rounded" onclick="calculate('=')">=</button>
+            <button class="p-2 border border-gray-300 rounded" onclick="clearDisplay()">AC</button>
+        </div>
+    </div>
+    <script>
+        let display = document.getElementById('display');
+        let expression = '';
+        function calculate(value) {
+            if (value === '=') {
+                try {
+                    display.value = eval(expression);
+                    expression = display.value;
+                } catch (e) {
+                    display.value = 'Error';
+                    expression = '';
+                }
+            } else {
+                expression += value;
+                display.value = expression;
+            }
+        }
+        function clearDisplay() {
+            display.value = '';
+            expression = '';
+        }
+        function backspace() {
+            expression = expression.slice(0, -1);
+            display.value = expression;
+        }
+    </script>
+</body>
+</html>
