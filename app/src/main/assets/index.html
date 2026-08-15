@@ -3,199 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Short Video App</title>
+    <title>Media Uploader and Audio Selector</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-900 text-white">
-    <header class="fixed top-0 left-0 right-0 flex justify-between items-center p-4 bg-gray-800">
-        <h1 class="text-2xl font-bold">Short Video App</h1>
-        <button id="upload-btn" class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">
-            Upload
-        </button>
-    </header>
-    <main class="pt-16 flex-1">
-        <div id="video-feed" class="flex flex-col items-center">
-            <!-- video feed will be generated dynamically -->
-        </div>
-    </main>
-    <nav class="fixed bottom-0 left-0 right-0 flex justify-between items-center p-4 bg-gray-800">
-        <button id="home-btn" class="text-white hover:text-orange-500">
-            <i class="fas fa-home"></i>
-        </button>
-        <button id="discover-btn" class="text-white hover:text-orange-500">
-            <i class="fas fa-compass"></i>
-        </button>
-        <button id="upload-btn-nav" class="text-white hover:text-orange-500">
-            <i class="fas fa-plus"></i>
-        </button>
-        <button id="inbox-btn" class="text-white hover:text-orange-500">
-            <i class="fas fa-envelope"></i>
-        </button>
-        <button id="profile-btn" class="text-white hover:text-orange-500">
-            <i class="fas fa-user"></i>
-        </button>
-    </nav>
-    <div id="upload-modal" class="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-800 bg-opacity-50 hidden">
-        <div class="bg-gray-900 p-4 rounded">
-            <h2 class="text-2xl font-bold">Upload Video</h2>
-            <input id="video-input" type="file" accept="video/*" class="block mb-4">
-            <input id="audio-input" type="file" accept="audio/*" class="block mb-4">
-            <button id="upload-video-btn" class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">
-                Upload
-            </button>
-        </div>
+<body class="h-screen flex flex-col items-center justify-center bg-gray-100">
+    <h1 class="text-3xl mb-4">Media Uploader and Audio Selector</h1>
+    <div class="flex flex-col items-center justify-center">
+        <input type="file" id="media-input" accept="image/*, video/*" class="mb-4">
+        <div id="media-preview" class="mb-4"></div>
+        <select id="audio-selector" class="mb-4">
+            <option value="">Select Background Music</option>
+            <option value="lo-fi">Lo-Fi</option>
+            <option value="peppy">Peppy</option>
+            <option value="hype-beats">Hype Beats</option>
+        </select>
     </div>
-    <div id="profile-modal" class="fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-800 bg-opacity-50 hidden">
-        <div class="bg-gray-900 p-4 rounded">
-            <h2 class="text-2xl font-bold">Profile</h2>
-            <div id="profile-info" class="mb-4">
-                <!-- profile info will be generated dynamically -->
-            </div>
-            <button id="close-profile-btn" class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">
-                Close
-            </button>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.js"></script>
-    <script src="https://kit.fontawesome.com/your-fontawesome-kit.js" crossorigin="anonymous"></script>
+
     <script>
-        const videoFeed = document.getElementById('video-feed');
-        const uploadBtn = document.getElementById('upload-btn');
-        const uploadBtnNav = document.getElementById('upload-btn-nav');
-        const homeBtn = document.getElementById('home-btn');
-        const discoverBtn = document.getElementById('discover-btn');
-        const inboxBtn = document.getElementById('inbox-btn');
-        const profileBtn = document.getElementById('profile-btn');
-        const uploadModal = document.getElementById('upload-modal');
-        const videoInput = document.getElementById('video-input');
-        const audioInput = document.getElementById('audio-input');
-        const uploadVideoBtn = document.getElementById('upload-video-btn');
-        const profileModal = document.getElementById('profile-modal');
-        const closeProfileBtn = document.getElementById('close-profile-btn');
-        const profileInfo = document.getElementById('profile-info');
+        const mediaInput = document.getElementById('media-input');
+        const mediaPreview = document.getElementById('media-preview');
+        const audioSelector = document.getElementById('audio-selector');
 
-        let videos = [];
-        let currentVideo = 0;
-
-        uploadBtn.addEventListener('click', () => {
-            uploadModal.classList.remove('hidden');
-        });
-
-        uploadBtnNav.addEventListener('click', () => {
-            uploadModal.classList.remove('hidden');
-        });
-
-        uploadVideoBtn.addEventListener('click', () => {
-            const videoFile = videoInput.files[0];
-            const audioFile = audioInput.files[0];
-            const video = {
-                videoFile,
-                audioFile,
-                likes: 0,
-                comments: []
+        mediaInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const mediaURL = event.target.result;
+                if (file.type.startsWith('image/')) {
+                    const img = document.createElement('img');
+                    img.src = mediaURL;
+                    mediaPreview.innerHTML = '';
+                    mediaPreview.appendChild(img);
+                } else if (file.type.startsWith('video/')) {
+                    const video = document.createElement('video');
+                    video.src = mediaURL;
+                    video.controls = true;
+                    mediaPreview.innerHTML = '';
+                    mediaPreview.appendChild(video);
+                }
             };
-            videos.push(video);
-            generateVideoFeed();
-            uploadModal.classList.add('hidden');
+            reader.readAsDataURL(file);
         });
 
-        homeBtn.addEventListener('click', () => {
-            generateVideoFeed();
+        audioSelector.addEventListener('change', (e) => {
+            const selectedTrack = e.target.value;
+            console.log(`Background music track selected: ${selectedTrack}`);
+            if (selectedTrack === 'lo-fi') {
+                // Play Lo-Fi music
+                const audio = new Audio('https://example.com/lo-fi.mp3');
+                audio.play();
+            } else if (selectedTrack === 'peppy') {
+                // Play Peppy music
+                const audio = new Audio('https://example.com/peppy.mp3');
+                audio.play();
+            } else if (selectedTrack === 'hype-beats') {
+                // Play Hype Beats music
+                const audio = new Audio('https://example.com/hype-beats.mp3');
+                audio.play();
+            }
         });
-
-        discoverBtn.addEventListener('click', () => {
-            // discover page logic
-        });
-
-        inboxBtn.addEventListener('click', () => {
-            // inbox page logic
-        });
-
-        profileBtn.addEventListener('click', () => {
-            generateProfileInfo();
-            profileModal.classList.remove('hidden');
-        });
-
-        closeProfileBtn.addEventListener('click', () => {
-            profileModal.classList.add('hidden');
-        });
-
-        function generateVideoFeed() {
-            videoFeed.innerHTML = '';
-            videos.forEach((video, index) => {
-                const videoContainer = document.createElement('div');
-                videoContainer.classList.add('mb-4');
-                const videoElement = document.createElement('video');
-                videoElement.src = URL.createObjectURL(video.videoFile);
-                videoElement.autoplay = true;
-                videoElement.loop = true;
-                videoContainer.appendChild(videoElement);
-                const likesContainer = document.createElement('div');
-                likesContainer.classList.add('flex justify-between items-center');
-                const likesBtn = document.createElement('button');
-                likesBtn.classList.add('text-white hover:text-orange-500');
-                likesBtn.innerHTML = `<i class="fas fa-heart"></i> ${video.likes}`;
-                likesBtn.addEventListener('click', () => {
-                    video.likes++;
-                    likesBtn.innerHTML = `<i class="fas fa-heart"></i> ${video.likes}`;
-                });
-                const commentsBtn = document.createElement('button');
-                commentsBtn.classList.add('text-white hover:text-orange-500');
-                commentsBtn.innerHTML = `<i class="fas fa-comment"></i> ${video.comments.length}`;
-                commentsBtn.addEventListener('click', () => {
-                    const commentsModal = document.createElement('div');
-                    commentsModal.classList.add('fixed top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-800 bg-opacity-50');
-                    const commentsContainer = document.createElement('div');
-                    commentsContainer.classList.add('bg-gray-900 p-4 rounded');
-                    video.comments.forEach((comment) => {
-                        const commentElement = document.createElement('p');
-                        commentElement.textContent = comment;
-                        commentsContainer.appendChild(commentElement);
-                    });
-                    const commentInput = document.createElement('input');
-                    commentInput.type = 'text';
-                    commentInput.placeholder = 'Add a comment';
-                    commentInput.classList.add('block mb-4');
-                    const commentBtn = document.createElement('button');
-                    commentBtn.classList.add('bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded');
-                    commentBtn.textContent = 'Comment';
-                    commentBtn.addEventListener('click', () => {
-                        const comment = commentInput.value;
-                        video.comments.push(comment);
-                        commentsContainer.appendChild(document.createElement('p')).textContent = comment;
-                        commentInput.value = '';
-                    });
-                    commentsModal.appendChild(commentsContainer);
-                    commentsModal.appendChild(commentInput);
-                    commentsModal.appendChild(commentBtn);
-                    document.body.appendChild(commentsModal);
-                });
-                likesContainer.appendChild(likesBtn);
-                likesContainer.appendChild(commentsBtn);
-                videoContainer.appendChild(likesContainer);
-                videoFeed.appendChild(videoContainer);
-            });
-        }
-
-        function generateProfileInfo() {
-            profileInfo.innerHTML = '';
-            const profilePicture = document.createElement('img');
-            profilePicture.src = 'https://picsum.photos/200/300';
-            profilePicture.classList.add('mb-4');
-            profileInfo.appendChild(profilePicture);
-            const followers = document.createElement('p');
-            followers.textContent = 'Followers: 100';
-            followers.classList.add('mb-4');
-            profileInfo.appendChild(followers);
-            const likes = document.createElement('p');
-            likes.textContent = 'Likes: 1000';
-            likes.classList.add('mb-4');
-            profileInfo.appendChild(likes);
-            const videos = document.createElement('p');
-            videos.textContent = 'Videos: 10';
-            videos.classList.add('mb-4');
-            profileInfo.appendChild(videos);
-        }
     </script>
 </body>
 </html>
