@@ -4,72 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator App</title>
-    <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="h-screen bg-gray-100 flex justify-center items-center">
-    <div class="bg-white rounded shadow-md p-4 w-80">
-        <input type="text" id="display" class="w-full p-2 border border-gray-300 rounded mb-4" disabled>
-        <div class="grid grid-cols-4 gap-2">
-            <button class="p-2 border border-gray-300 rounded" onclick="clearDisplay()">C</button>
-            <button class="p-2 border border-gray-300 rounded" onclick="backspace()">DEL</button>
-            <button class="p-2 border border-gray-300 rounded" onclick="calculate('%')">%</button>
-            <button class="p-2 border border-gray-300 rounded" onclick="calculate('/')">/</button>
-            <button class="p-2 border border-gray-300 rounded" onclick="calculate('7')">7</button>
-            <button class="p-2 border border-gray-300 rounded" onclick="calculate('8')">8</button>
-            <button class="p-2 border border-gray-300 rounded" onclick="calculate('9')">9</button>
-            <button class="p-2 border border-gray-300 rounded" onclick="calculate('*')">*</button>
-            <button class="p-2 border border-gray-300 rounded" onclick="calculate('4')">4</button>
-            <button class="p-2 border border-gray-300 rounded" onclick="calculate('5')">5</button>
-            <button class="p-2 border border-gray-300 rounded" onclick="calculate('6')">6</button>
-            <button class="p-2 border border-gray-300 rounded" onclick="calculate('-')">-</button>
-            <button class="p-2 border border-gray-300 rounded" onclick="calculate('1')">1</button>
-            <button class="p-2 border border-gray-300 rounded" onclick="calculate('2')">2</button>
-            <button class="p-2 border border-gray-300 rounded" onclick="calculate('3')">3</button>
-            <button class="p-2 border border-gray-300 rounded" onclick="calculate('+')">+</button>
-            <button class="p-2 border border-gray-300 rounded" onclick="calculate('0')">0</button>
-            <button class="p-2 border border-gray-300 rounded" onclick="calculate('.')">.</button>
-            <button class="p-2 border border-gray-300 rounded" onclick="calculate('00')">00</button>
-            <button class="p-2 border border-gray-300 rounded bg-blue-500 text-white" onclick="calculate('=')">=</button>
+    <div class="bg-white rounded-lg shadow-lg p-8 w-80">
+        <input type="text" id="display" class="w-full h-12 text-3xl text-right border-b-2 border-gray-300 p-2" disabled>
+        <div class="grid grid-cols-4 gap-2 mt-4">
+            <button class="h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-lg text-2xl" onclick="clearDisplay()">C</button>
+            <button class="h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-lg text-2xl" onclick="deleteChar()">DEL</button>
+            <button class="h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-lg text-2xl" onclick="calculate('%')">%</button>
+            <button class="h-12 w-12 bg-orange-500 hover:bg-orange-600 rounded-lg text-2xl text-white" onclick="calculate('/')">/</button>
+            <button class="h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-lg text-2xl" onclick="calculate('7')">7</button>
+            <button class="h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-lg text-2xl" onclick="calculate('8')">8</button>
+            <button class="h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-lg text-2xl" onclick="calculate('9')">9</button>
+            <button class="h-12 w-12 bg-orange-500 hover:bg-orange-600 rounded-lg text-2xl text-white" onclick="calculate('*')">*</button>
+            <button class="h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-lg text-2xl" onclick="calculate('4')">4</button>
+            <button class="h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-lg text-2xl" onclick="calculate('5')">5</button>
+            <button class="h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-lg text-2xl" onclick="calculate('6')">6</button>
+            <button class="h-12 w-12 bg-orange-500 hover:bg-orange-600 rounded-lg text-2xl text-white" onclick="calculate('-')">-</button>
+            <button class="h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-lg text-2xl" onclick="calculate('1')">1</button>
+            <button class="h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-lg text-2xl" onclick="calculate('2')">2</button>
+            <button class="h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-lg text-2xl" onclick="calculate('3')">3</button>
+            <button class="h-12 w-12 bg-orange-500 hover:bg-orange-600 rounded-lg text-2xl text-white" onclick="calculate('+')">+</button>
+            <button class="h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-lg text-2xl" onclick="calculate('0')">0</button>
+            <button class="h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-lg text-2xl" onclick="calculate('.')">.</button>
+            <button class="h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-lg text-2xl" onclick="calculate('')"></button>
+            <button class="h-12 w-12 bg-orange-500 hover:bg-orange-600 rounded-lg text-2xl text-white" onclick="calculate('=')">=</button>
         </div>
     </div>
     <script>
         let display = document.getElementById('display');
-        let currentNumber = '';
-        let previousNumber = '';
-        let operator = '';
-
-        function clearDisplay() {
-            display.value = '';
-            currentNumber = '';
-            previousNumber = '';
-            operator = '';
-        }
-
-        function backspace() {
-            currentNumber = currentNumber.slice(0, -1);
-            display.value = currentNumber;
-        }
-
+        let calculation = '';
         function calculate(value) {
             if (value === '=') {
-                if (currentNumber !== '' && previousNumber !== '' && operator !== '') {
-                    let result = eval(`${previousNumber} ${operator} ${currentNumber}`);
-                    display.value = result;
-                    currentNumber = result.toString();
-                    previousNumber = '';
-                    operator = '';
+                try {
+                    display.value = eval(calculation);
+                    calculation = display.value;
+                } catch (e) {
+                    display.value = 'Error';
+                    calculation = '';
                 }
-            } else if (['+', '-', '*', '/', '%'].includes(value)) {
-                if (currentNumber !== '') {
-                    previousNumber = currentNumber;
-                    operator = value;
-                    currentNumber = '';
-                    display.value = previousNumber + ' ' + operator;
-                }
+            } else if (value === 'C') {
+                display.value = '';
+                calculation = '';
+            } else if (value === 'DEL') {
+                calculation = calculation.slice(0, -1);
+                display.value = calculation;
             } else {
-                currentNumber += value;
-                display.value = currentNumber;
+                calculation += value;
+                display.value = calculation;
             }
+        }
+        function clearDisplay() {
+            display.value = '';
+            calculation = '';
+        }
+        function deleteChar() {
+            calculation = calculation.slice(0, -1);
+            display.value = calculation;
         }
     </script>
 </body>
