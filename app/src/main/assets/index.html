@@ -3,78 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator App</title>
+    <title>Simple Calculator</title>
     <link href="https://cdn.tailwindcss.com" rel="stylesheet">
 </head>
 <body class="h-screen bg-gray-100 flex justify-center items-center">
-    <div class="bg-white p-4 rounded-lg shadow-md w-80">
-        <input type="text" id="display" class="w-full p-2 text-right text-2xl border border-gray-300 rounded" disabled>
+    <div class="bg-white p-8 rounded shadow-md w-80">
+        <input type="text" id="display" class="w-full p-2 text-2xl text-right border border-gray-300 rounded" disabled>
         <div class="grid grid-cols-4 gap-2 mt-4">
-            <button class="p-2 text-lg border border-gray-300 rounded" onclick="clearDisplay()">C</button>
-            <button class="p-2 text-lg border border-gray-300 rounded" onclick="backspace()">DEL</button>
-            <button class="p-2 text-lg border border-gray-300 rounded" onclick="calculate('%')">%</button>
-            <button class="p-2 text-lg border border-gray-300 rounded" onclick="calculate('/')">/</button>
-            <button class="p-2 text-lg border border-gray-300 rounded" onclick="calculate('7')">7</button>
-            <button class="p-2 text-lg border border-gray-300 rounded" onclick="calculate('8')">8</button>
-            <button class="p-2 text-lg border border-gray-300 rounded" onclick="calculate('9')">9</button>
-            <button class="p-2 text-lg border border-gray-300 rounded" onclick="calculate('*')">*</button>
-            <button class="p-2 text-lg border border-gray-300 rounded" onclick="calculate('4')">4</button>
-            <button class="p-2 text-lg border border-gray-300 rounded" onclick="calculate('5')">5</button>
-            <button class="p-2 text-lg border border-gray-300 rounded" onclick="calculate('6')">6</button>
-            <button class="p-2 text-lg border border-gray-300 rounded" onclick="calculate('-')">-</button>
-            <button class="p-2 text-lg border border-gray-300 rounded" onclick="calculate('1')">1</button>
-            <button class="p-2 text-lg border border-gray-300 rounded" onclick="calculate('2')">2</button>
-            <button class="p-2 text-lg border border-gray-300 rounded" onclick="calculate('3')">3</button>
-            <button class="p-2 text-lg border border-gray-300 rounded" onclick="calculate('+')">+</button>
-            <button class="p-2 text-lg border border-gray-300 rounded" onclick="calculate('0')">0</button>
-            <button class="p-2 text-lg border border-gray-300 rounded" onclick="calculate('.')" >.</button>
-            <button class="p-2 text-lg border border-gray-300 rounded" onclick="calculate('=')">=</button>
-            <button class="p-2 text-lg border border-gray-300 rounded" onclick="bhag()">bhag</button>
+            <button class="p-2 text-xl border border-gray-300 rounded" onclick="clearDisplay()">C</button>
+            <button class="p-2 text-xl border border-gray-300 rounded" onclick="deleteChar()">DEL</button>
+            <button class="p-2 text-xl border border-gray-300 rounded" onclick="calculate('%')">%</button>
+            <button class="p-2 text-xl border border-gray-300 rounded" onclick="calculate('/')">/</button>
+            <button class="p-2 text-xl border border-gray-300 rounded" onclick="calculate('7')">7</button>
+            <button class="p-2 text-xl border border-gray-300 rounded" onclick="calculate('8')">8</button>
+            <button class="p-2 text-xl border border-gray-300 rounded" onclick="calculate('9')">9</button>
+            <button class="p-2 text-xl border border-gray-300 rounded" onclick="calculate('*')">*</button>
+            <button class="p-2 text-xl border border-gray-300 rounded" onclick="calculate('4')">4</button>
+            <button class="p-2 text-xl border border-gray-300 rounded" onclick="calculate('5')">5</button>
+            <button class="p-2 text-xl border border-gray-300 rounded" onclick="calculate('6')">6</button>
+            <button class="p-2 text-xl border border-gray-300 rounded" onclick="calculate('-')">-</button>
+            <button class="p-2 text-xl border border-gray-300 rounded" onclick="calculate('1')">1</button>
+            <button class="p-2 text-xl border border-gray-300 rounded" onclick="calculate('2')">2</button>
+            <button class="p-2 text-xl border border-gray-300 rounded" onclick="calculate('3')">3</button>
+            <button class="p-2 text-xl border border-gray-300 rounded" onclick="calculate('+')">+</button>
+            <button class="p-2 text-xl border border-gray-300 rounded" onclick="calculate('0')">0</button>
+            <button class="p-2 text-xl border border-gray-300 rounded" onclick="calculate('.')">.</button>
+            <button class="p-2 text-xl border border-gray-300 rounded" onclick="calculate('=')">=</button>
+            <button class="p-2 text-xl border border-gray-300 rounded" onclick="calculate('')">SPACE</button>
+            <button class="p-2 text-xl border border-gray-300 rounded" onclick="calculate('')">SPACE</button>
         </div>
     </div>
     <script>
         let display = document.getElementById('display');
-        let expression = '';
+        let currentNumber = '';
+        let previousNumber = '';
+        let operation = '';
 
-        function calculate(value) {
-            if (value === '=') {
-                try {
-                    display.value = eval(expression);
-                    expression = display.value;
-                } catch (e) {
-                    display.value = 'Error';
-                    expression = '';
+        function calculate(input) {
+            if (input === '=') {
+                if (currentNumber !== '' && previousNumber !== '' && operation !== '') {
+                    let result = eval(previousNumber + operation + currentNumber);
+                    display.value = result;
+                    currentNumber = result.toString();
+                    previousNumber = '';
+                    operation = '';
                 }
-            } else if (value === 'C') {
+            } else if (input === 'C') {
                 display.value = '';
-                expression = '';
-            } else if (value === 'DEL') {
-                expression = expression.slice(0, -1);
-                display.value = expression;
+                currentNumber = '';
+                previousNumber = '';
+                operation = '';
+            } else if (input === 'DEL') {
+                if (currentNumber !== '') {
+                    currentNumber = currentNumber.slice(0, -1);
+                    display.value = currentNumber;
+                } else if (operation !== '') {
+                    operation = '';
+                    display.value = previousNumber;
+                    currentNumber = '';
+                } else if (previousNumber !== '') {
+                    previousNumber = previousNumber.slice(0, -1);
+                    display.value = previousNumber;
+                }
+            } else if (['+', '-', '*', '/'].includes(input)) {
+                if (currentNumber !== '') {
+                    previousNumber = currentNumber;
+                    operation = input;
+                    currentNumber = '';
+                    display.value = previousNumber + operation;
+                }
+            } else if (input === '%') {
+                if (currentNumber !== '') {
+                    currentNumber = (currentNumber / 100).toString();
+                    display.value = currentNumber;
+                }
             } else {
-                expression += value;
-                display.value = expression;
+                currentNumber += input;
+                display.value = currentNumber;
             }
         }
 
         function clearDisplay() {
             display.value = '';
-            expression = '';
+            currentNumber = '';
+            previousNumber = '';
+            operation = '';
         }
 
-        function backspace() {
-            expression = expression.slice(0, -1);
-            display.value = expression;
-        }
-
-        function bhag() {
-            try {
-                let result = eval(expression) / 2;
-                display.value = result;
-                expression = result.toString();
-            } catch (e) {
-                display.value = 'Error';
-                expression = '';
+        function deleteChar() {
+            if (currentNumber !== '') {
+                currentNumber = currentNumber.slice(0, -1);
+                display.value = currentNumber;
+            } else if (operation !== '') {
+                operation = '';
+                display.value = previousNumber;
+                currentNumber = '';
+            } else if (previousNumber !== '') {
+                previousNumber = previousNumber.slice(0, -1);
+                display.value = previousNumber;
             }
         }
     </script>
