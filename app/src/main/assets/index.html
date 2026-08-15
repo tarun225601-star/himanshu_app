@@ -3,65 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculator App</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Scientific Calculator</title>
+    <link href="https://cdn.tailwindcss.com" rel="stylesheet">
+    <style>
+        body {
+            background-color: #1a1d23;
+            color: #fff;
+        }
+        .button {
+            background-color: #2f343a;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #454a54;
+        }
+        .button:active {
+            background-color: #3a4149;
+        }
+        #display {
+            background-color: #2f343a;
+            color: #fff;
+            padding: 10px;
+            font-size: 24px;
+            text-align: right;
+            border: none;
+        }
+        #history {
+            background-color: #2f343a;
+            color: #fff;
+            padding: 5px;
+            font-size: 18px;
+            text-align: right;
+            border: none;
+        }
+    </style>
 </head>
-<body class="h-screen bg-gray-100 flex justify-center items-center">
-    <div class="bg-white rounded-lg shadow-lg p-8 w-80">
-        <input type="text" id="display" class="w-full h-12 text-3xl text-right border-b-2 border-gray-300 p-2" disabled>
-        <div class="grid grid-cols-4 gap-2 mt-4">
-            <button class="h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-lg text-2xl" onclick="clearDisplay()">C</button>
-            <button class="h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-lg text-2xl" onclick="deleteChar()">DEL</button>
-            <button class="h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-lg text-2xl" onclick="calculate('%')">%</button>
-            <button class="h-12 w-12 bg-orange-500 hover:bg-orange-600 rounded-lg text-2xl text-white" onclick="calculate('/')">/</button>
-            <button class="h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-lg text-2xl" onclick="calculate('7')">7</button>
-            <button class="h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-lg text-2xl" onclick="calculate('8')">8</button>
-            <button class="h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-lg text-2xl" onclick="calculate('9')">9</button>
-            <button class="h-12 w-12 bg-orange-500 hover:bg-orange-600 rounded-lg text-2xl text-white" onclick="calculate('*')">*</button>
-            <button class="h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-lg text-2xl" onclick="calculate('4')">4</button>
-            <button class="h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-lg text-2xl" onclick="calculate('5')">5</button>
-            <button class="h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-lg text-2xl" onclick="calculate('6')">6</button>
-            <button class="h-12 w-12 bg-orange-500 hover:bg-orange-600 rounded-lg text-2xl text-white" onclick="calculate('-')">-</button>
-            <button class="h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-lg text-2xl" onclick="calculate('1')">1</button>
-            <button class="h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-lg text-2xl" onclick="calculate('2')">2</button>
-            <button class="h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-lg text-2xl" onclick="calculate('3')">3</button>
-            <button class="h-12 w-12 bg-orange-500 hover:bg-orange-600 rounded-lg text-2xl text-white" onclick="calculate('+')">+</button>
-            <button class="h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-lg text-2xl" onclick="calculate('0')">0</button>
-            <button class="h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-lg text-2xl" onclick="calculate('.')">.</button>
-            <button class="h-12 w-12 bg-gray-200 hover:bg-gray-300 rounded-lg text-2xl" onclick="calculate('')"></button>
-            <button class="h-12 w-12 bg-orange-500 hover:bg-orange-600 rounded-lg text-2xl text-white" onclick="calculate('=')">=</button>
+<body>
+    <div class="container mx-auto p-4 pt-6 md:p-6 lg:p-12 xl:p-24">
+        <div class="flex flex-col h-screen">
+            <div id="history" class="mb-2"></div>
+            <input id="display" type="text" disabled>
+            <div class="flex flex-wrap justify-center mt-4">
+                <button class="button m-2" onclick="clearDisplay()">AC</button>
+                <button class="button m-2" onclick="backspace()">⌫</button>
+                <button class="button m-2" onclick="calculate('%')">%</button>
+                <button class="button m-2" onclick="calculate('/')">/</button>
+                <button class="button m-2" onclick="calculate('7')">7</button>
+                <button class="button m-2" onclick="calculate('8')">8</button>
+                <button class="button m-2" onclick="calculate('9')">9</button>
+                <button class="button m-2" onclick="calculate('*')">*</button>
+                <button class="button m-2" onclick="calculate('4')">4</button>
+                <button class="button m-2" onclick="calculate('5')">5</button>
+                <button class="button m-2" onclick="calculate('6')">6</button>
+                <button class="button m-2" onclick="calculate('-')">-</button>
+                <button class="button m-2" onclick="calculate('1')">1</button>
+                <button class="button m-2" onclick="calculate('2')">2</button>
+                <button class="button m-2" onclick="calculate('3')">3</button>
+                <button class="button m-2" onclick="calculate('+')">+</button>
+                <button class="button m-2" onclick="calculate('0')">0</button>
+                <button class="button m-2" onclick="calculate('.')">.</button>
+                <button class="button m-2" onclick="calculate('=')">=</button>
+            </div>
         </div>
     </div>
     <script>
         let display = document.getElementById('display');
-        let calculation = '';
+        let history = document.getElementById('history');
+        let currentExpression = '';
+        let previousExpression = '';
+
+        function clearDisplay() {
+            display.value = '';
+            currentExpression = '';
+            previousExpression = '';
+            history.innerText = '';
+        }
+
+        function backspace() {
+            currentExpression = currentExpression.slice(0, -1);
+            display.value = currentExpression;
+        }
+
         function calculate(value) {
             if (value === '=') {
                 try {
-                    display.value = eval(calculation);
-                    calculation = display.value;
-                } catch (e) {
+                    let result = eval(currentExpression);
+                    display.value = result;
+                    previousExpression = currentExpression + ' = ' + result;
+                    history.innerText = previousExpression;
+                    currentExpression = result.toString();
+                } catch (error) {
                     display.value = 'Error';
-                    calculation = '';
+                    currentExpression = '';
                 }
-            } else if (value === 'C') {
-                display.value = '';
-                calculation = '';
-            } else if (value === 'DEL') {
-                calculation = calculation.slice(0, -1);
-                display.value = calculation;
             } else {
-                calculation += value;
-                display.value = calculation;
+                currentExpression += value;
+                display.value = currentExpression;
             }
-        }
-        function clearDisplay() {
-            display.value = '';
-            calculation = '';
-        }
-        function deleteChar() {
-            calculation = calculation.slice(0, -1);
-            display.value = calculation;
         }
     </script>
 </body>
