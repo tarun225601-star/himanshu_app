@@ -1,2 +1,9 @@
 rootProject.name = "himanshu_app";
 include ':app'
+pluginManagement {
+    repositories {
+        google() // यह होना ही चाहिए
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
